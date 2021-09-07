@@ -22,3 +22,11 @@ This is a very long string
 that preserves all the lines 
 with TRIPLE QUOTES!!!
 """
+
+
+a, b = 5, 10
+
+print(f"a:{a}\n b:{b}")
+
+a, b = b, a
+print(f"a:{a}\n b:{b}")
