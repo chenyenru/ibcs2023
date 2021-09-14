@@ -86,3 +86,20 @@ print((lambda x, y: x*y)(4, 2))
 max_val = max(mylist)
 filtered = [(max_val - x) for x in mylist if x > 5 and x < 25]
 print(filtered)
+
+
+# We are now slicing start:end:step
+mylist = [x for x in range(50)]
+
+sublist = mylist[1:3:2]
+print(sublist)
+
+sublist = mylist[3:15:2]
+print(sublist)
+
+sublist = mylist[3:15:-2]
+print(sublist)
+
+
+sublist = mylist[7:15:2]
+print(sublist)
