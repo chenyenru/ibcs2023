@@ -103,3 +103,9 @@ print(sublist)
 
 sublist = mylist[7:15:2]
 print(sublist)
+
+sublist = mylist[7::2]
+print(sublist)
+
+sublist = mylist[7:]
+print(sublist)
