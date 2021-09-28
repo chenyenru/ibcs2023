@@ -79,7 +79,7 @@ mylist = [(x * 2) for x in range(10)]
 print(mylist)
 
 filtered = [x for x in mylist if x % 2 == 0]
-print(filtered)
+print(filtered)+
 
 print((lambda x, y: x*y)(4, 2))
 
