@@ -43,10 +43,32 @@ class Circle:
         return f"r: {self.r}\ncircumference: {self.circumference}\narea: {self.area}"
 
     def __gt__(self, other):
-        return self._r > other._r
+        if type(other) == Circle:
+            return self._r > other._r
+        if type(other) == float or type(other) == int:
+            return self.area > other
+
+        # see if other has area attribute. if not, just return False
+        area = getattr(other, "area", None)
+        if callable(area):
+            return self.area > other.area
+            if area is not None:
+                return self.area > other.area
+            return False
 
     def __lt__(self, other):
-        return self._r < other._r
+        if type(other) == Circle:
+            return self._r < other._r
+        if type(other) == float or type(other) == int:
+            return self.area < other
+
+        # see if other has area attribute. if not, just return False
+        area = getattr(other, "area", None)
+        if callable(area):
+            return self.area < other.area
+            if area is not None:
+                return self.area < other.area
+            return False
 
     def __eq__(self, other):
         if type(other) == Circle:
