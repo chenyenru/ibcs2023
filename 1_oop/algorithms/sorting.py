@@ -91,8 +91,8 @@ def merge(array: List[int], left: int, mid: int, right: int):
         k += 1
     while j <= right:
         # in case that the right array has any remaining value
-        tmp[j] = array[j]
-        i += 1
+        tmp[k] = array[j]
+        j += 1
         k += 1
 
     # Copy temporary array back into original array

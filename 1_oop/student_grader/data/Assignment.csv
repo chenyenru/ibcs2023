@@ -1,5 +1,6 @@
-﻿student_name,assignment_name,grades,max_marks, subject
-Rebecca,quadratics,5,8,Math
-Andy,quadratics,5,8,Math
-Linda,quadratics,6,8,Math
-Jamie,quadratics,8,8,Math
+﻿student_name,assignment_name,grades,max_marks,subject
+Rebecca,quadratics,5,8,mathematics
+Andy,quadratics,5,8,mathematics
+Linda,quadratics,6,8,mathematics
+Jamie,quadratics,8,8,mathematics
+Rebecca,logarithms,5,8,mathematics
