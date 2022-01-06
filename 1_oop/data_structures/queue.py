@@ -51,6 +51,7 @@ class Queue:
         return self._length
 
     def __iter__(self) -> Iterator:
+
         self._iter = self._head
         return self
 

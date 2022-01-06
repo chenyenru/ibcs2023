@@ -82,11 +82,20 @@ class Dequeue:
         """
         尾部刪除
         """
+        if not self._tail:
+            return None
+
+        data = self._tail.data
+        self._tail = self._tail.prev
+
         if self._head == self._tail:
             self._head = None
             self._tail = None
         else:
             self._tail = self._tail.prev
+
+        self._length -= 1
+        return data
 
     def __len__(self):
         return self._length
@@ -101,6 +110,14 @@ class Dequeue:
         tmp = self._iter.data  # get the data
         self._iter = self._iter.next  # return iterator
         return tmp
+
+    def __reversed__(self) -> Iterator:
+        def reverse_iterator():
+            r_iter = self._tail
+            while r_iter is not None:
+                yield r_iter.data
+                r_iter = r_iter.prev
+        return reverse_iterator()
 
     def __contains__(self, data: int) -> bool:
         for d in self:
@@ -119,20 +136,27 @@ class Dequeue:
 
 if __name__ == "__main__":
     q = Dequeue()
-    q.enqueue(1)
-    q.enqueue(2)
-    q.enqueue(3)
-    q.enqueue(4)
-    q.enqueue(5)
-    q.enqueue(6)
+    q.append(1)
+    q.append(2)
+    q.append(3)
+    q.append(4)
+    q.append(5)
 
     print(f"Queue's Length = {len(q)}")
     print(6 in q)
 
     print(str(q))
 
-    print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-    print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-    print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-    print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-    print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    print("Forwards")
+    for d in q:
+        print(d)
+
+    print("Reversed")
+    for d in reversed(q):
+        print(d)
+
+    # print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    # print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    # print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    # print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    # print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
