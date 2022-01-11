@@ -1,7 +1,8 @@
-# data_structures/binary_tree.py
+# data_structures/avl_tree
 
 from typing import Callable
 from os import linesep
+"""used when we need to read frequently but insert little"""
 
 
 class Node:
@@ -12,7 +13,7 @@ class Node:
         self.left: Node = None
 
 
-class BinarySearchTree:
+class AVLTree:
     def __init__(self) -> None:
         self._root: Node = None
         # for easy interpretation in __len__(self)
@@ -35,8 +36,9 @@ class BinarySearchTree:
         else:
             root.right = self._insert(data, root.right)
 
-        self._height(root)
-        return root
+        root.height = self._height(root)
+
+        return self._rebalance(root)
 
     def height(self) -> int:
         return self._root.height
@@ -99,7 +101,15 @@ class BinarySearchTree:
         return find_max(self._root)
 
     def min(self) -> int:
-        pass
+        def find_min(root: Node) -> Node:
+
+            if root.right:
+                return find_min(root.right)
+
+            return root.data
+        if not self._root:
+            return None
+        return find_min(self._root)
 
     def delete(self, data: int) -> None:
         self._delete(data, self._root)
@@ -142,13 +152,65 @@ class BinarySearchTree:
             root.data = tmp.data
             root.right = self._delete(tmp.data, root.right)
 
-        return root
+        return self._rebalance(root)
 
     def _min_node(self, root: Node) -> Node:
         # looks until there is no left so to knwo that there is no more successor
         if root.left is not None:
             return self._min_node(root.left)
         return root
+
+    def _get_balance(self, root: Node = None) -> int:
+        if root is None:
+            return 0
+        else:
+            return self._height(root.left) - self._height(root.right)
+
+    def _rebalance(self, root: Node = None) -> Node:
+        if root is None:
+            return None
+
+        balance = self._get_balance(root)
+        # find balance of left and right subtrees
+        left_balance = self._get_balance(root.left)
+        right_balance = self._get_balance(root.right)
+
+        if balance > 1 and left_balance >= 0:
+            return self._rotate_right(root)
+
+        if balance > 1 and left_balance < 0:
+            # telling the left subtree to perform a left rotation
+            root.left = self.rotate_left(root.left)
+            return self.rotate_right(root)
+
+        if balance < -1 and right_balance < 0:
+            return self.rotate_left(root)
+
+        if balance > -1 and right_balance > 0:
+            root.right = self.rotate_right(root.right)
+            return self.rotate_left(root)
+
+        return root
+
+    def rotate_left(self, root: Node) -> Node:
+        new_root = root.right
+        left_subtree = new_root.left
+
+        new_root.left = root
+        root.right = left_subtree
+
+        self._height(new_root)
+        return new_root
+
+    def rotate_right(self, root: Node) -> Node:
+        new_root = root.left
+        right_subtree = new_root.right
+
+        new_root.right = root
+        root.right = right_subtree
+
+        self._height(new_root)
+        return new_root
 
 
 def tree_printer(root: Node, data_func: Callable, width: int = 64):
@@ -186,26 +248,23 @@ def tree_printer(root: Node, data_func: Callable, width: int = 64):
 
 
 if __name__ == "__main__":
-    bst = BinarySearchTree()
-    bst.insert(1)
-    bst.insert(2)
-    bst.insert(3)
-    bst.insert(1234)
-    bst.insert(6)
-    bst.insert(5)
-    bst.insert(5)
+    avl = AVLTree()
 
-    l = bst.max()
-    print(f"max: {l}")
-    for v in reversed(bst):
-        print(v)
+    for i in range(11):
+        avl.insert(i)
+        s = tree_printer(avl._root, lambda x: x.data)
+        print(s)
+        print(" ")
+
+    # l = avl.max()
+    # print(f"max: {l}")
+    # for v in reversed(avl):
+    #     print(v)
 
     # def get_data(x):
     #     return x.data
-    s = tree_printer(bst._root, lambda x: x.data)
-    print(s)
 
-    bst.delete(1234)
-    bst.delete(5)
-    s = tree_printer(bst._root, lambda x: x.data)
+    avl.delete(1234)
+    avl.delete(5)
+    s = tree_printer(avl._root, lambda x: x.data)
     print(s)
