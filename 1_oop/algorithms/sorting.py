@@ -9,7 +9,6 @@ def bubble_sort(array: List[int]) -> None:
     # has been swapped
     swapped = True
     end = len(array) - 1
-
     # Keep repeating while swapped is True
     while swapped:
         # We haven't swapped anything in this loop
@@ -25,7 +24,7 @@ def bubble_sort(array: List[int]) -> None:
 
 def selection_sort(array: List[int]) -> None:
     for i in range(len(array) - 1):
-        # assume i is the smallest value
+        # assume i is the smallest index value
         m = i
         # look through all other elements
         for j in range(i, len(array)):
@@ -46,7 +45,8 @@ def insertion_sort(array: List[int]) -> None:
         j = i - 1
         # while we find values greater than key
         # swap j and j+1
-        while j >= 0 and key < array[j]:
+        # here we can see j+1 as i
+        while j >= 0 and array[j] > key:
             array[j+1] = array[j]
             j -= 1
         array[j+1] = key

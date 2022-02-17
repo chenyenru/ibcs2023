@@ -1,11 +1,3 @@
-# data_structures/dequeue.py
-"""
-- Combination of Queue and Stack
-- Double ended Queue
-- FILO + FIFO
-"""
-
-
 from typing import Iterator
 
 
@@ -17,7 +9,7 @@ class Node:
         self.prev: Node = None
 
 
-class Dequeue:
+class DoublyLinkedList:
     def __init__(self) -> None:
         self._head: Node = None
         self._tail: Node = None
@@ -133,29 +125,72 @@ class Dequeue:
         s += "]"
         return s
 
+    def __init__(self) -> None:
+        self._head: Node = None
+        self._tail: Node = None
+        self._length: int = 0
+        self._iter: Node = None
 
-q = Dequeue()
-q.append(1)
-q.append(2)
-q.append(3)
-q.append(4)
-q.append(5)
+    def push(self, data: int) -> None:
+        """
+        Put things on the stack
+        """
+        n = Node(data)  # starts a node object
+        n.next = self._head  # sets the next to the current head
+        self._head = n  # updates the head to be the current node added
+        self._length += 1
 
-print(f"Queue's Length = {len(q)}")
-print(6 in q)
+    def pop(self) -> int:
+        """
+        Pop things off the stack
+        """
+        if self._head is None:
+            return None
 
-print(str(q))
+        tmp = self._head.data  # before we move head, we need to know the head there
+        self._head = self._head.next
+        self._length -= 1
+        return tmp
 
-print("Forwards")
-for d in q:
-    print(d)
 
-print("Reversed")
-for d in reversed(q):
-    print(d)
+class LRUCache:
 
-# print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-# print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-# print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-# print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
-# print(f"Dequeue: {q.dequeue()}\t Length: {len(q)}")
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        s = set(range(capacity))
+        self.s = dict.fromkeys(s)
+        self.q = DoublyLinkedList()
+
+    def get(self, key: int) -> int:
+        s = self.s
+        if s.get(key):
+
+            return s.get(key)
+        else:
+            return -1
+
+    def put(self, key: int, value: int) -> None:
+        """
+        put things 
+        """
+        cap = self.cap
+        s = self.s
+        q = self.q
+
+        if s.get(key):
+            s[key] = value
+            # will need to update accessed key here
+            return s
+        if len(q) == capacity:
+            pass
+        else:
+            # append value
+            q.append(key)
+
+            # Your LRUCache object will be instantiated and called as such:
+
+            # obj = LRUCache(capacity)
+
+            # param_1 = obj.get(key)
+
+            # obj.put(key,value)
