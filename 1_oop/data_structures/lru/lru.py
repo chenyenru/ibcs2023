@@ -89,6 +89,13 @@ class DoublyLinkedList:
         self._length -= 1
         return data
 
+    def delete(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        node.val, node.next = node.next.val, node.next.next
+
     def __len__(self):
         return self._length
 
@@ -163,8 +170,10 @@ class LRUCache:
 
     def get(self, key: int) -> int:
         s = self.s
+        q = self.q
         if s.get(key):
-
+            q.delete(s[key])
+            q.append(s[key])
             return s.get(key)
         else:
             return -1
@@ -172,25 +181,35 @@ class LRUCache:
     def put(self, key: int, value: int) -> None:
         """
         put things 
+        cap: capacity of the lru
+        s: dictionary
+        q: doubly linked list
         """
         cap = self.cap
         s = self.s
         q = self.q
 
         if s.get(key):
+            q.delete(s[key])
             s[key] = value
+            q.append(s[key])
             # will need to update accessed key here
-            return s
-        if len(q) == capacity:
-            pass
+            return q, s
+        if len(q) == cap:
+            q.delete_first()
         else:
             # append value
             q.append(key)
 
-            # Your LRUCache object will be instantiated and called as such:
+        s[key] = value
+        q.append(s[key])
+        return q, s
 
-            # obj = LRUCache(capacity)
 
-            # param_1 = obj.get(key)
-
-            # obj.put(key,value)
+# Your LRUCache object will be instantiated and called as such:
+capacity = 2
+key = 3
+value = 4
+obj = LRUCache(capacity)
+obj.put(key, value)
+param_1 = obj.get(key)
