@@ -91,10 +91,10 @@ class DoublyLinkedList:
 
     def delete(self, data):
         """
-        :type node: ListNode
-        :rtype: void Do not return anything, modify node in-place instead.
+        Do not return anything, modify node in-place instead.
         """
         node = Node(data)
+        # node = data
         if node.next == None:
             self.delete_last()
         elif node.prev == None:
@@ -215,9 +215,9 @@ class LRUCache:
 
 
 # Your LRUCache object will be instantiated and called as such:
-capacity = 2
+capacity = 4
 obj = LRUCache(capacity)
-obj.put(key = 2, value = 4)
-obj.put(key = 3, value = 5)
-param_1 = obj.get(2)
-obj.put(key = 4, value = 10)
+obj.put(key=2, value=4)
+obj.put(key=3, value=5)
+param_1 = obj.get(3)
+obj.put(key=4, value=10)
