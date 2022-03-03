@@ -1,5 +1,6 @@
 from collections import namedtuple
 from typing import List
+import numpy as np
 
 
 Coord = namedtuple("Coord", ["x", "y"])
@@ -24,28 +25,36 @@ class Quad:
         self.bottom_end = bottom_end
         self.bottom = bottom_end
         # Children Quad Tree List
-        self.children: List[Coord] = []
+        # self.children: List[Coord] = []
+        self.children = []
+        self.max_cap = max_cap
 
-    def divide(self, max_cap):
+    def divide(self):
         """
         Divides this quad into four equal quads
         throw children to different quadrants
         """
-        self.nw = Quad(right=self.right/2, right_end=self.right_end, bottom=self.bottom /
-                       2, bottom_end=self.bottom_end)
+        max_cap = self.max_cap
+        self.nw = Quad(right=self.right//2, right_end=self.right_end, bottom=self.bottom /
+                       2, bottom_end=self.bottom_end, max_cap=max_cap)
         self.ne = Quad(right=self.right,
-                       right_bottom=self.right/2,
-                       bottom=self.bottom/2,
-                       bottom_end=self.bottom)
-        self.sw = Quad(right=self.right/2, bottom=self.bottom)
-        self.se = Quad(right=self.right, bottom=self.bottom)
+                       right_end=self.right//2,
+                       bottom=self.bottom//2,
+                       bottom_end=self.bottom,
+                       max_cap=max_cap)
+        self.sw = Quad(right=self.right//2,
+                       bottom=self.bottom, max_cap=max_cap)
+        self.se = Quad(right=self.right, bottom=self.bottom, max_cap=max_cap)
         subquads = [self.nw, self.ne, self.sw, self.se]
+        children = self.children
         for subquad in subquads:
-            for d in self.children:
-                if (d.x in range(subquad.right_start-1, subquad.nw.right_start)) and (d.y in range(subquad.bottom_start, subquad.bottom_end)):
-                    subquad.children += self.children.pop(d)
+            for d in children:
+                if (d.x in range((subquad.right_start - 1), subquad.right_end), 0.1) and d.y in np.arange(subquad.bottom_start, subquad.bottom_end, 0.1):
+                    subquad.children += d
+                    self.children.remove(d)
             # return self.nw, self.ne, self.sw, self.se
-            if subquad.children >
+            if len(subquad.children) > self.max_cap:
+                subquad.divide()
         return self
 
     def __len__(self):
@@ -66,7 +75,7 @@ SE:{self.se}
 class QuadTree:
     def __init__(self, right: int, bottom: int, max_cap: int = 5):
         self._max_cap = max_cap
-        self._root = Quad(right=right, bottom=bottom)
+        self._root = Quad(right=right, bottom=bottom, max_cap=max_cap)
 
     def add(self, child: Coord):
         """
@@ -78,13 +87,12 @@ class QuadTree:
             while len(self._root.children) > self._max_cap:
                 self._root.divide()
             return self
-        elif len(self._root) < self._max_cap:
-            while len()
+        elif len(self._root.children) < self._max_cap:
             pass
         else:
             pass
 
-        pass
+        return self
 
     def __str__(self):
         return str(self._root)
