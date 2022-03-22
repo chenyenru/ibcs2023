@@ -4,7 +4,7 @@ import socket
 
 
 def main():
-    host = "127.0.0.1"  # this is a local host ip address
+    host = "172.16.12.147"  # this is a local host ip address
     port = 5003
 
     # create a new socket
@@ -25,7 +25,7 @@ def main():
 
     # accept incoming connctions
     conn, addr = s.accept()  # start waiting right here
-    print(f"Accepted conncetion from {addr}")
+    print(f"Accepted connection from {addr}")
 
     # We're a server. We never stop listening :D
     # We're also not providing a graceful way to exit :\
