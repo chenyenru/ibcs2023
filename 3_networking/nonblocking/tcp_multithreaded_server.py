@@ -16,8 +16,8 @@ def main():
     while True:
         conn, addr = s.accept()
         # If there is no response in 5 seconds, close conncetion
-        conn.settimeout(5)
-        print(f"Conncetion from {addr}")
+        conn.settimeout(60)
+        print(f"Connection from {addr}")
         # Create a new thread
         #   target = function/method that will be called when the thread starts
         #   args = arguments to pass the target function
@@ -26,7 +26,7 @@ def main():
         thread.start()
 
 
-def listen_to_client(conn: socket.socket, addr: socket._RetAddress):
+def listen_to_client(conn: socket.socket, addr):
     while True:
         try:
             data = conn.recv(1024)
