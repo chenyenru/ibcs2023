@@ -4,7 +4,6 @@
   // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
     {
       "name": "Blocking TCP Server",
       "type": "python",
@@ -46,12 +45,12 @@
       "justMyCode": true
     },
     {
-    "name": "Nonblocking TCP Selector Server",
-    "type": "python",
-    "request": "launch",
-    "program": "${workspaceFolder}/3_networking/nonblocking/tcp_selector_server.py",
-    "console": "integratedTerminal",
-    "justMyCode": true
+      "name": "Nonblocking TCP Selector Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/tcp_selector_server.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
     },
     {
       "name": "Aync Test",
@@ -60,6 +59,46 @@
       "program": "${workspaceFolder}/3_networking/nonblocking/async_test.py",
       "console": "integratedTerminal",
       "justMyCode": true
-      }
+    },
+    {
+      "name": "Aync Test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_test.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Non Blocking Async Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_echo_server.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Non Blocking Async Client",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_echo_client.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Non Blocking Chat Async Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_chat_client.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Non Blocking Chat Async Client",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_chat_client.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
   ]
 }
