@@ -88,7 +88,7 @@
       "name": "Non Blocking Chat Async Server",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/3_networking/nonblocking/async_chat_client.py",
+      "program": "${workspaceFolder}/3_networking/nonblocking/async_chat_server.py",
       "console": "integratedTerminal",
       "justMyCode": true
     },

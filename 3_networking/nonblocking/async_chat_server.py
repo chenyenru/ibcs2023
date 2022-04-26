@@ -9,7 +9,7 @@ class ChatServerProtocol(asyncio.Protocol):
 
     def __init__(self, transports: List[asyncio.BaseTransport]):
         super().__init__()
-        self._transport = transports
+        self._transports = transports
         self._transport: asyncio.BaseTransport = None
 
     # Called when we accept a new connection
