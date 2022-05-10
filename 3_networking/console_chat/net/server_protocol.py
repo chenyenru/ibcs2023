@@ -41,24 +41,24 @@ class ChatServerProtocol(asyncio.Protocol):
         return super().connection_lost(exc)
 
 
-async def main():
-    # Get a reference to the event loop since we are using
-    # low-level APIs
-    loop = asyncio.get_running_loop()
-    host = '127.0.0.1'
-    port = 5001
+def run_server(host: str = "127.0.0.1", port: int = 5001):
+    async def _run_server(host: str, port: int):
+        loop = asyncio.get_event_loop()
 
-    transports: List[asyncio.BaseTransport] = []
-    server = await loop.create_server(
-        lambda: ChatServerProtocol(transports),
-        host,
-        port
-    )
+        # Listing base transports
+        transports: List[asyncio.BaseTransport] = []
+        server = await loop.create_server(
+            lambda: ChatServerProtocol(transports), host, port
+        )
 
-    async with server:
-        # Start accepting connections until the coroutine is cancelled.
-        await server.serve_forever()
+        # see if there's running loop, if there isn't running loop, create a loop!
+        async with server:
+            # serve_forever = serve until something happens or if it's told to stop
+            # like auto-file-closing, but this time with server
+            await server.serve_forever()
+
+    asyncio.run(_run_server(host=host, port=port))
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run_server()
