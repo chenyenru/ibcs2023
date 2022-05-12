@@ -4,6 +4,7 @@ from os import chdir, curdir, path
 import sys
 
 from net.server_protocol import run_server
+from chat_client import runClient
 
 
 def main(args: argparse.Namespace):
@@ -11,10 +12,14 @@ def main(args: argparse.Namespace):
     # main.py -s to start server
     host = args.host if args.host else "127.0.0.1"
     port = args.post if args.port else 5001
+    test = args.test
 
     if args.server:
         print("Starting server:")
         run_server(host, port)
+        return
+
+    runClient(host=host, port=port, test=test)
 
 
 if __name__ == "__main__":
@@ -35,6 +40,8 @@ if __name__ == "__main__":
                         help="Specify hostname for client/server")
     parser.add_argument("--port", "-p", type=int,
                         help="Specify port for client/server")
+    parser.add_argument("--test", "-t", default=False,
+                        action="store_true", help="Start chat client in testing mode")
 
     # this parse things after main.py
     # because the first element is main.py
