@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import List
+from typing import Dict, List
 
 from textual.app import App
 import textual.events as events
@@ -23,19 +23,21 @@ MESSAGE = "message"
 
 class ChatApp(App, AbstractMessageHandler):
     _protocol: AbstractChatClientProtocol | None = None
-    _username: str | None = None
+    _username: str | None = "Rebecca"
+    _messages: List[Dict] = []
 
     def __init__(self, protocol: AbstractChatClientProtocol | None = None) -> None:
         if protocol is None:
             raise ValueError("Cannot continue without a chat protocol")
         self._protocol = protocol
         self._protocol.message_handler = self
+        super().__init__(title="Chat App", log="log.log")
     
-    async def onLoad(self, event: events.Load) -> None:
+    async def on_load(self, event: events.Load) -> None:
         await self._protocol.connect()
         # this is a function defined in App. will listen to these key bindings and quit the event 
         await self.bind("escape", "quit", "Quit")
-    async def onMount(self, event: events.Mount) -> None:
+    async def on_mount(self, event: events.Mount) -> None:
         grid: GridLayout = await self.view.dock_grid()
 
         grid.add_column(name="center", fraction=1)
@@ -52,7 +54,7 @@ class ChatApp(App, AbstractMessageHandler):
 
         await self._message_input.focus()
 
-    async def onKey(self, event: events.Key) -> None:
+    async def on_key(self, event: events.Key) -> None:
         if event.key == "enter":
             value = self._message_input.value
             self._message_input_value = "" # empty the message input
@@ -66,26 +68,23 @@ class ChatApp(App, AbstractMessageHandler):
             await self._protocol.send(package)
 
     # Tells our protocol that we're exiting
-    async def onShutdownRequest(self, event: events.ShutdownRequest):
+    async def on_shutdown_request(self, event: events.ShutdownRequest):
         await self._protocol.close()
         return await super().onShutdownRequest(event)
 
-    async def onMessageReceived(self, message: str) -> None:
+    async def on_message_received(self, message: str) -> None:
         message = json.loads(message)
         await self.add_message(message)
 
-    async def getMessage(self):
-        loop = asyncio.get_event_loop()
-        while self._protocol.isConnected:
-            message = None
-            message = await loop.run_in_executor(None, input, ">>>")
-            message = message.strip()
-            if message == "q":
-                await self._protocol.close()
-            else:
-                data = {USERNAME: self._username, MESSAGE: message}
-                package = json.dumps(data)
-                await self._protocol.send(package)
+    async def add_message(self, message: Dict) -> Dict:
+        self._messages.append(message)
+        
+        strings = [
+            f"{message.get(USERNAME)}: {message.get(MESSAGE)}"
+            for message in self._messages
+        ]
+
+        await self._chat_scrollview.update("\n\n".join(strings), home=False)
 
 
 def runClient(host: str = "127.0.0.1", port: int = 5001, *, test: bool = False, protocolType: str = "basic") -> None:

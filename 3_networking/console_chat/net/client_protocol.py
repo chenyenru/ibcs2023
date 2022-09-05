@@ -100,7 +100,7 @@ class ChatClientProtocol(AbstractChatClientProtocol, asyncio.Protocol):
         self._transport = transport
         self._is_connected = True
 
-    def connection_lost(self, exc: Exception | None) -> None:
+    def connection_lost(self, exc: Exception) -> None:
         self._is_connected = False
         if self.message_handler:
             _async(self.message_handler.on_connection_lost())

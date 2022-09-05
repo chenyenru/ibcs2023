@@ -53,7 +53,7 @@
       "justMyCode": true
     },
     {
-      "name": "Aync Test",
+      "name": "Async Test",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/3_networking/nonblocking/async_test.py",
@@ -61,7 +61,7 @@
       "justMyCode": true
     },
     {
-      "name": "Aync Test",
+      "name": "Async Test",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/3_networking/nonblocking/async_test.py",
@@ -97,6 +97,14 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/3_networking/nonblocking/async_chat_client.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Chat Client",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/3_networking/console_chat/chat_client.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }
