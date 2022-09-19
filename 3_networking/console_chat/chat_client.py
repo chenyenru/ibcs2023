@@ -80,7 +80,7 @@ class ChatApp(App, AbstractMessageHandler):
         self._messages.append(message)
         
         strings = [
-            f"{message.get(USERNAME)}: {message.get(MESSAGE)}"
+            f"[blue]{message.get(USERNAME)}[/blue]: {message.get(MESSAGE)}"
             for message in self._messages
         ]
 
